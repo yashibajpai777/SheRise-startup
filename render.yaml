@@ -1,0 +1,21 @@
+# Render Blueprint Specification for SheRise
+# Learn more: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: sherise-platform
+    runtime: python
+    plan: free
+    region: oregon # or ohio, frankfurt, singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.0
+      - key: HOST
+        value: 0.0.0.0
+      - key: GEMINI_API_KEY
+        sync: false # Set securely in the Render Dashboard
+      - key: SHERISE_SALT
+        generateValue: true # Render automatically generates a secure unique salt

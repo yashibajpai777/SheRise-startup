@@ -1,0 +1,7 @@
+# SheRise Web Platform Dependencies
+# 
+# The platform is powered by the Python 3 standard library (http.server, sqlite3, urllib)
+# with zero external dependency requirements for ultra-fast, zero-friction cloud deployment.
+#
+# If you wish to use the official Google GenAI SDK directly:
+# google-genai>=3.2.0

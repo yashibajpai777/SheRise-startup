@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SheRise — Empowering Women Entrepreneurs with Catalytic Capital & AI</title>
+  <meta name="description" content="SheRise connects visionary female founders with angel syndicates, venture funds, and AI-accelerated pitch advisory.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lavender: {
+              50: '#FAF5FF',
+              100: '#F3E8FF',
+              200: '#E9D5FF',
+              300: '#D8B4FE',
+              400: '#C084FC',
+              500: '#A855F7',
+              600: '#9333EA',
+              700: '#7E22CE',
+              800: '#6B21A8',
+              900: '#581C87',
+              950: '#3B0764',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Custom CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-[#FAF5FF] text-slate-900 min-h-screen flex flex-col antialiased selection:bg-purple-200 selection:text-purple-900">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white text-xs py-2 px-4 text-center border-b border-purple-800/60 font-medium">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-2">
+      <span class="text-amber-300">✨</span>
+      <span>Breaking the 2% Venture Gap — Connect with 190+ Accredited Investors & Use Gemini AI Pitch Doctor.</span>
+      <button onclick="window.app.navigate('explore')" class="underline hover:text-purple-200 font-semibold ml-1">Explore Ventures &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-40 glass-nav transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3 cursor-pointer select-none" onclick="window.app.navigate('landing')">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-800 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-900/20 ring-2 ring-purple-300/40">
+          <span class="text-2xl text-white">🌸</span>
+        </div>
+        <div>
+          <span class="text-2xl font-extrabold tracking-tight text-purple-950 font-serif">SheRise</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider block text-purple-700 -mt-1">Ventures & Capital</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+        <button class="nav-link hover:text-purple-900 transition py-1" data-view="landing" onclick="window.app.navigate('landing')">
+          Home
+        </button>
+        <button class="nav-link hover:text-purple-900 transition py-1" data-view="explore" onclick="window.app.navigate('explore')">
+          Explore Ideas
+        </button>
+        <button class="nav-link hover:text-purple-900 transition py-1" data-view="investors" onclick="window.app.navigate('investors')">
+          Find Investors
+        </button>
+        <button class="nav-link hover:text-purple-900 transition py-1 flex items-center gap-1.5" data-view="ai-doctor" onclick="window.app.navigate('ai-doctor')">
+          <span class="text-purple-600">✨</span> AI Pitch Doctor
+        </button>
+        <button id="nav-link-dashboard" class="nav-link hover:text-purple-900 transition py-1 hidden" data-view="dashboard" onclick="window.app.navigate('dashboard')">
+          Dashboard
+        </button>
+      </nav>
+
+      <!-- Action Buttons & User Menu -->
+      <div class="flex items-center gap-3">
+        <!-- Gemini Key Settings Button -->
+        <button onclick="window.app.openGeminiKeyModal()" 
+                class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-purple-100/80 hover:bg-purple-200/80 text-purple-900 border border-purple-200 transition shadow-sm"
+                title="Configure Google Gemini API Key">
+          <span>✨</span>
+          <span>Gemini AI</span>
+        </button>
+
+        <!-- Unauthenticated View -->
+        <div id="nav-unauthenticated" class="flex items-center gap-2">
+          <button onclick="window.app.openAuthModal('login')" class="text-sm font-bold text-purple-950 hover:text-purple-700 px-3.5 py-2 transition">
+            Sign In
+          </button>
+          <button onclick="window.app.openAuthModal('register')" class="gradient-btn-primary text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg transition">
+            Join SheRise
+          </button>
+        </div>
+
+        <!-- Authenticated View -->
+        <div id="nav-authenticated" class="hidden flex items-center gap-3">
+          <button onclick="window.app.navigate('create-venture')" 
+                  class="gradient-btn-primary text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow flex items-center gap-1.5">
+            <span>+</span>
+            <span>Submit Idea</span>
+          </button>
+
+          <div class="relative group">
+            <button onclick="window.app.navigate('profile')" class="flex items-center gap-2 p-1 rounded-xl hover:bg-purple-100 transition">
+              <img id="nav-user-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" 
+                   class="w-9 h-9 rounded-full object-cover ring-2 ring-purple-300" />
+              <div class="hidden lg:block text-left text-xs">
+                <span id="nav-user-name" class="font-bold text-purple-950 block leading-tight">Maya Lin</span>
+                <span id="nav-user-role" class="text-[10px] text-purple-600 font-semibold block leading-tight">Founder</span>
+              </div>
+            </button>
+          </div>
+
+          <button onclick="window.app.logout()" class="text-xs text-slate-400 hover:text-rose-600 px-2 py-1 font-semibold" title="Sign Out">
+            Sign Out
+          </button>
+        </div>
+
+        <!-- Mobile Menu Hamburger button -->
+        <button onclick="document.getElementById('mobile-nav').classList.toggle('hidden')" class="md:hidden p-2 rounded-xl text-purple-950 hover:bg-purple-100">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-nav" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-purple-100 bg-white/95 backdrop-blur space-y-2 text-sm font-semibold">
+      <button onclick="window.app.navigate('landing'); document.getElementById('mobile-nav').classList.add('hidden')" class="block w-full text-left py-2 text-purple-950">Home</button>
+      <button onclick="window.app.navigate('explore'); document.getElementById('mobile-nav').classList.add('hidden')" class="block w-full text-left py-2 text-purple-950">Explore Ideas</button>
+      <button onclick="window.app.navigate('investors'); document.getElementById('mobile-nav').classList.add('hidden')" class="block w-full text-left py-2 text-purple-950">Find Investors</button>
+      <button onclick="window.app.navigate('ai-doctor'); document.getElementById('mobile-nav').classList.add('hidden')" class="block w-full text-left py-2 text-purple-950">✨ AI Pitch Doctor</button>
+      <button onclick="window.app.navigate('dashboard'); document.getElementById('mobile-nav').classList.add('hidden')" class="block w-full text-left py-2 text-purple-950">Dashboard</button>
+      <button onclick="window.app.openGeminiKeyModal(); document.getElementById('mobile-nav').classList.add('hidden')" class="block w-full text-left py-2 text-purple-700">⚙️ Gemini API Settings</button>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTAINER WITH DYNAMIC VIEWS                                         -->
+  <!-- ========================================================================= -->
+  <main class="flex-1">
+
+    <!-- 1. LANDING PAGE VIEW -->
+    <section id="view-landing" class="view-section">
+      <!-- Hero Section -->
+      <div class="gradient-hero pt-14 pb-20 border-b border-purple-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-white/90 text-purple-800 border border-purple-200/80 shadow-sm mb-6">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>The Premier Female Founder Capital & Growth Syndicate</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-purple-950 font-serif leading-[1.15] mb-6 max-w-4xl mx-auto">
+            Where Visionary Women Founders Meet <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-purple-600 to-indigo-600">Catalytic Capital</span>.
+          </h1>
+
+          <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
+            SheRise connects female entrepreneurs with accredited angel investors and top-tier venture funds, accelerated by our proprietary <strong>Gemini-Powered Pitch Doctor</strong>.
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center gap-4">
+            <button onclick="window.app.navigate('create-venture')" class="gradient-btn-primary text-white text-base font-bold px-8 py-4 rounded-2xl shadow-xl shadow-purple-900/20 hover:scale-105 transition duration-300">
+              Submit Your Business Idea &rarr;
+            </button>
+            <button onclick="window.app.navigate('explore')" class="glass-panel text-purple-950 text-base font-bold px-8 py-4 rounded-2xl hover:bg-white transition border border-purple-200">
+              Explore Ventures
+            </button>
+          </div>
+
+          <!-- Live KPI Statistics Bar -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mt-16 text-left">
+            <div class="glass-panel p-6 rounded-2xl border border-purple-100">
+              <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Total Capital Facilitated</span>
+              <span id="stat-capital" class="text-2xl sm:text-3xl font-extrabold text-purple-950 block">$18.5M+</span>
+              <span class="text-[11px] text-slate-500 font-medium">Across Seed & Series A rounds</span>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border border-purple-100">
+              <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Active Women-Led Startups</span>
+              <span id="stat-ventures" class="text-2xl sm:text-3xl font-extrabold text-purple-950 block">450+ Ventures</span>
+              <span class="text-[11px] text-slate-500 font-medium">From 28 countries globally</span>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border border-purple-100">
+              <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Accredited Investors</span>
+              <span id="stat-investors" class="text-2xl sm:text-3xl font-extrabold text-purple-950 block">190+ Verified</span>
+              <span class="text-[11px] text-slate-500 font-medium">Writing $25k to $1.5M checks</span>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border border-purple-100">
+              <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Avg. AI Readiness Score</span>
+              <span id="stat-readiness" class="text-2xl sm:text-3xl font-extrabold text-purple-950 block">91 / 100</span>
+              <span class="text-[11px] text-slate-500 font-medium">Powered by Google Gemini</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Gemini AI Feature Highlight Banner -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
+        <div class="rounded-3xl p-8 bg-gradient-to-r from-purple-900 via-indigo-950 to-purple-950 text-white shadow-2xl border border-purple-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-200 border border-purple-400/30 mb-3">
+              <span>✨</span>
+              <span>Gemini 4 Hydrogen Integration</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold font-serif mb-3 leading-snug">
+              Instant Investor Diligence with SheRise AI Pitch Doctor
+            </h2>
+            <p class="text-sm text-purple-200 leading-relaxed">
+              Don't guess what venture capitalists think. Run your pitch through our Google Gemini model to receive an instantaneous 1-100 Investor Readiness Score, a 30-second executive hook, and key risk mitigation strategies before booking partner meetings.
+            </p>
+          </div>
+          <div class="flex-shrink-0 flex items-center gap-3">
+            <button onclick="window.app.navigate('ai-doctor')" class="gradient-btn-primary px-6 py-3.5 rounded-2xl text-sm font-bold text-white shadow-lg hover:scale-105 transition">
+              Launch AI Pitch Doctor &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Ventures Showcase -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Curated Dealflow</span>
+            <h2 class="text-3xl font-bold text-purple-950 font-serif">Featured Women-Led Ventures</h2>
+          </div>
+          <button onclick="window.app.navigate('explore')" class="text-sm font-bold text-purple-800 hover:text-purple-600 flex items-center gap-1.5">
+            <span>View all business ideas</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+
+        <div id="featured-ventures-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Why SheRise: 3 Pillars -->
+      <div class="bg-white/80 py-20 border-y border-purple-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Our Ecosystem</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-purple-950 font-serif mb-4">Built Specifically for Women Founders</h2>
+            <p class="text-sm text-slate-600">We replace gatekeeping with direct capital access, AI-accelerated pitch evaluation, and high-trust syndicate matching.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-panel p-8 rounded-3xl border border-purple-100">
+              <div class="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl mb-6">💡</div>
+              <h3 class="text-xl font-bold text-purple-950 mb-3">Direct Founder Discovery</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Post your startup vision, milestones, and funding requirements. Get discovered by angels and venture funds actively deploying capital into female founders.
+              </p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-3xl border border-purple-100">
+              <div class="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl mb-6">✨</div>
+              <h3 class="text-xl font-bold text-purple-950 mb-3">Gemini Pitch Calibration</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Our Gemini-powered engine audits your problem-solution fit, market sizing, unit economics, and generates personalized outreach emails for each investor's thesis.
+              </p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-3xl border border-purple-100">
+              <div class="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl mb-6">🤝</div>
+              <h3 class="text-xl font-bold text-purple-950 mb-3">Vetted Angel Syndicates</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Every investor on SheRise is verified with documented commitment to backing diverse teams, providing both catalytic capital and strategic board mentorship.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Investor Spotlight Section -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <span class="text-xs uppercase tracking-wider font-bold text-purple-700 block mb-1">Active Capital Partners</span>
+            <h2 class="text-3xl font-bold text-purple-950 font-serif">Meet Backing Angels & VCs</h2>
+          </div>
+          <button onclick="window.app.navigate('investors')" class="text-sm font-bold text-purple-800 hover:text-purple-600 flex items-center gap-1.5">
+            <span>Explore Investor Directory</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+
+        <div id="featured-investors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. EXPLORE BUSINESS IDEAS VIEW -->
+    <section id="view-explore" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <!-- Top Title & Search -->
+      <div class="mb-8">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-purple-950 font-serif mb-2">Explore Women-Led Ventures</h1>
+        <p class="text-sm text-slate-600">Discover vetted startups, early-stage ideas, and growth-phase companies raising capital.</p>
+      </div>
+
+      <!-- Search & Filters Bar -->
+      <div class="glass-panel p-6 rounded-3xl border border-purple-100 mb-8 space-y-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- Search input -->
+          <div class="flex-1 relative">
+            <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
+            <input type="text" id="search-input" placeholder="Search by venture name, problem, or founder..." 
+                   class="w-full pl-11 pr-4 py-3 rounded-xl border border-purple-200/80 focus:ring-2 focus:ring-purple-600 focus:outline-none bg-white text-sm" />
+          </div>
+
+          <!-- Stage filter -->
+          <div class="w-full md:w-48">
+            <select id="filter-stage" onchange="window.appState.setFilters({ stage: this.value })"
+                    class="w-full py-3 px-3 rounded-xl border border-purple-200/80 focus:ring-2 focus:ring-purple-600 bg-white text-sm text-slate-700">
+              <option value="All">All Stages</option>
+              <option value="Idea">Idea</option>
+              <option value="Prototype / MVP">Prototype / MVP</option>
+              <option value="Early Traction">Early Traction</option>
+              <option value="Seed">Seed</option>
+              <option value="Series A">Series A</option>
+            </select>
+          </div>
+
+          <!-- Sort filter -->
+          <div class="w-full md:w-48">
+            <select id="filter-sort" onchange="window.appState.setFilters({ sort: this.value })"
+                    class="w-full py-3 px-3 rounded-xl border border-purple-200/80 focus:ring-2 focus:ring-purple-600 bg-white text-sm text-slate-700">
+              <option value="newest">Newest First</option>
+              <option value="highest_score">Highest AI Score</option>
+              <option value="funding_goal">Funding Goal</option>
+              <option value="popular">Most Views</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Pill selector -->
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-purple-100">
+          <span class="text-xs font-bold uppercase tracking-wider text-purple-700 mr-2">Categories:</span>
+          <button onclick="window.appState.setFilters({ category: 'All' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-purple-950 text-white">All</button>
+          <button onclick="window.appState.setFilters({ category: 'HealthTech' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">HealthTech</button>
+          <button onclick="window.appState.setFilters({ category: 'FinTech' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">FinTech</button>
+          <button onclick="window.appState.setFilters({ category: 'AI & SaaS' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">AI & SaaS</button>
+          <button onclick="window.appState.setFilters({ category: 'CleanTech & Climate' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">CleanTech & Climate</button>
+          <button onclick="window.appState.setFilters({ category: 'EdTech' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">EdTech</button>
+          <button onclick="window.appState.setFilters({ category: 'E-commerce' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">E-commerce</button>
+          <button onclick="window.appState.setFilters({ category: 'BioTech' })" class="cat-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-700 border border-purple-100 hover:border-purple-300">BioTech</button>
+        </div>
+      </div>
+
+      <!-- Count & Result header -->
+      <div class="flex items-center justify-between mb-6">
+        <span id="ventures-count" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Loading ventures...</span>
+        <button onclick="window.app.navigate('create-venture')" class="gradient-btn-primary text-white text-xs font-bold px-4 py-2 rounded-xl shadow">
+          + Submit Your Idea
+        </button>
+      </div>
+
+      <!-- Ventures Grid -->
+      <div id="ventures-loading" class="text-center py-20 text-purple-600 font-semibold">
+        <div class="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+        Loading curated ventures...
+      </div>
+
+      <div id="ventures-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by Components.renderVentureCard -->
+      </div>
+
+      <div id="ventures-empty" class="hidden text-center py-20 bg-white/60 rounded-3xl border border-purple-100">
+        <span class="text-4xl mb-3 block">🔍</span>
+        <h3 class="text-lg font-bold text-purple-950 mb-1">No Ventures Match Your Search</h3>
+        <p class="text-xs text-slate-500 mb-4">Try clearing your filters or search keywords.</p>
+        <button onclick="window.appState.setFilters({ search: '', category: 'All', stage: 'All' })" 
+                class="px-4 py-2 rounded-xl text-xs font-bold bg-purple-100 text-purple-900">
+          Reset Filters
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 3. ENTREPRENEUR DASHBOARD VIEW -->
+    <section id="view-dashboard" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <!-- Welcome Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-purple-700">Entrepreneur Portal</span>
+          <h1 class="text-3xl font-bold text-purple-950 font-serif">Founder Overview Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.app.navigate('ai-doctor')" class="px-4 py-2 rounded-xl text-xs font-bold bg-purple-100 hover:bg-purple-200 text-purple-950 border border-purple-200 transition">
+            ✨ Run AI Pitch Doctor
+          </button>
+          <button onclick="window.app.navigate('create-venture')" class="gradient-btn-primary text-white text-xs font-bold px-4 py-2 rounded-xl shadow">
+            + New Business Idea
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div class="glass-panel p-5 rounded-2xl border border-purple-100">
+          <span class="text-xs uppercase font-bold text-slate-400 block mb-1">My Active Ventures</span>
+          <span id="dash-kpi-ventures" class="text-3xl font-extrabold text-purple-950 block">0</span>
+          <span class="text-[11px] text-purple-700 font-semibold">Published dealflow</span>
+        </div>
+        <div class="glass-panel p-5 rounded-2xl border border-purple-100">
+          <span class="text-xs uppercase font-bold text-slate-400 block mb-1">Total Pitch Views</span>
+          <span id="dash-kpi-views" class="text-3xl font-extrabold text-purple-950 block">0</span>
+          <span class="text-[11px] text-purple-700 font-semibold">Investor impressions</span>
+        </div>
+        <div class="glass-panel p-5 rounded-2xl border border-purple-100">
+          <span class="text-xs uppercase font-bold text-slate-400 block mb-1">Investor Inquiries</span>
+          <span id="dash-kpi-interests" class="text-3xl font-extrabold text-purple-950 block">0</span>
+          <span class="text-[11px] text-emerald-600 font-semibold">Expressions of interest</span>
+        </div>
+        <div class="glass-panel p-5 rounded-2xl border border-purple-100">
+          <span class="text-xs uppercase font-bold text-slate-400 block mb-1">Avg AI Readiness</span>
+          <span id="dash-kpi-score" class="text-3xl font-extrabold text-purple-950 block">89/100</span>
+          <span class="text-[11px] text-amber-600 font-semibold">Gemini calibrated</span>
+        </div>
+      </div>
+
+      <!-- 2-Column Section: Ventures vs Inquiries -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- My Ventures List -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-purple-950">My Business Ideas</h3>
+            <button onclick="window.app.navigate('create-venture')" class="text-xs font-bold text-purple-700 hover:underline">+ Add Pitch</button>
+          </div>
+          <div id="dash-my-ventures" class="space-y-4">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Inquiries Feed -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold text-purple-950">Recent Investor Inquiries</h3>
+          <div class="glass-panel p-4 rounded-2xl border border-purple-100">
+            <div id="dash-inquiries-list" class="space-y-3">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 4. CREATE BUSINESS IDEA VIEW -->
+    <section id="view-create-venture" class="view-section hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <div class="mb-8 text-center max-w-xl mx-auto">
+        <span class="text-xs font-bold uppercase tracking-wider text-purple-700">Submit Dealflow</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-purple-950 font-serif mb-2">Publish Your Business Idea</h1>
+        <p class="text-sm text-slate-600">Present your venture to active angels and VCs. Leverage our built-in Gemini AI Pitch Doctor to audit your submission in real time.</p>
+      </div>
+
+      <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-purple-100 shadow-xl">
+        <form id="form-create-venture" onsubmit="window.app.handleCreateVentureSubmit(event)" class="space-y-6">
+          
+          <!-- Venture Name & Tagline -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Venture / Startup Name *</label>
+              <input type="text" name="title" required placeholder="e.g. BioNova Health" 
+                     class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 focus:outline-none bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Industry Category *</label>
+              <select name="category" required class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm">
+                <option value="HealthTech">HealthTech</option>
+                <option value="FinTech">FinTech</option>
+                <option value="AI & SaaS">AI & SaaS</option>
+                <option value="CleanTech & Climate">CleanTech & Climate</option>
+                <option value="EdTech">EdTech</option>
+                <option value="E-commerce">E-commerce</option>
+                <option value="BioTech">BioTech</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">One-Sentence Tagline *</label>
+            <input type="text" name="tagline" required placeholder="e.g. AI-powered microfluidic home testing for women's preventative oncology." 
+                   class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+          </div>
+
+          <!-- Stage & Target Funding -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Current Stage *</label>
+              <select name="stage" required class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm">
+                <option value="Idea">Idea</option>
+                <option value="Prototype / MVP">Prototype / MVP</option>
+                <option value="Early Traction">Early Traction</option>
+                <option value="Seed">Seed</option>
+                <option value="Series A">Series A</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Target Funding Goal (USD) *</label>
+              <input type="number" name="target_funding" required min="5000" step="5000" value="250000" 
+                     class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+            </div>
+          </div>
+
+          <!-- Problem & Solution -->
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">The Problem You Are Solving * (min 20 characters)</label>
+            <textarea name="problem" required rows="3" placeholder="Describe the pain point, market friction, or underserved audience you are targeting..."
+                      class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Your Proposed Solution & Secret Sauce * (min 20 characters)</label>
+            <textarea name="solution" required rows="3" placeholder="Explain your proprietary technology, novel business model, or product moat..."
+                      class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm"></textarea>
+          </div>
+
+          <!-- Target Market & Traction -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Target Market & Sizing</label>
+              <input type="text" name="target_market" placeholder="e.g. $42B global market, 2.5M active target customers" 
+                     class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Traction & Key Metrics</label>
+              <input type="text" name="traction" placeholder="e.g. 1,200 waitlist, $15k MRR, completed pilot tests" 
+                     class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+            </div>
+          </div>
+
+          <!-- External Links -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Pitch Deck Link (PDF / Slides)</label>
+              <input type="url" name="pitch_deck_url" placeholder="https://example.com/pitch-deck.pdf" 
+                     class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1.5">Company Website / Demo</label>
+              <input type="url" name="website_url" placeholder="https://mycompany.com" 
+                     class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+            </div>
+          </div>
+
+          <!-- Inline AI Preview Container -->
+          <div id="inline-ai-preview" class="hidden pt-4"></div>
+
+          <!-- Form Buttons -->
+          <div class="pt-4 border-t border-purple-100 flex flex-wrap items-center justify-between gap-4">
+            <button type="button" onclick="window.app.triggerInlineAiReview()"
+                    class="px-5 py-2.5 rounded-xl text-xs font-bold bg-purple-100 hover:bg-purple-200 text-purple-950 border border-purple-300 transition flex items-center gap-1.5 ai-pulse-glow">
+              <span>✨</span>
+              <span>Audit with SheRise AI Doctor</span>
+            </button>
+
+            <button type="submit" id="btn-submit-venture"
+                    class="gradient-btn-primary text-white text-sm font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition">
+              Publish Business Idea ✨
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+
+    <!-- 5. INVESTOR DISCOVERY VIEW -->
+    <section id="view-investors" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <div class="mb-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-purple-700">Capital Network</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-purple-950 font-serif mb-2">Investor Discovery</h1>
+        <p class="text-sm text-slate-600">Connect with angel syndicates, venture partners, and family offices committed to women founders.</p>
+      </div>
+
+      <!-- Investor Search & Sector Bar -->
+      <div class="glass-panel p-6 rounded-3xl border border-purple-100 mb-8 flex flex-col md:flex-row gap-4">
+        <div class="flex-1 relative">
+          <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
+          <input type="text" id="investor-search-input" placeholder="Search by investor name, firm, or investment thesis..." 
+                 class="w-full pl-11 pr-4 py-3 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-600 bg-white text-sm" />
+        </div>
+
+        <div class="w-full md:w-56">
+          <select id="investor-filter-sector" onchange="window.appState.setInvestorFilters({ sector: this.value })"
+                  class="w-full py-3 px-3 rounded-xl border border-purple-200 bg-white text-sm text-slate-700">
+            <option value="All">All Focus Sectors</option>
+            <option value="HealthTech">HealthTech</option>
+            <option value="FinTech">FinTech</option>
+            <option value="CleanTech & Climate">CleanTech & Climate</option>
+            <option value="AI & SaaS">AI & SaaS</option>
+            <option value="EdTech">EdTech</option>
+            <option value="BioTech">BioTech</option>
+            <option value="E-commerce">E-commerce</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Investors Grid -->
+      <div id="investors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by Components.renderInvestorCard -->
+      </div>
+
+    </section>
+
+    <!-- 6. STANDALONE AI PITCH DOCTOR VIEW -->
+    <section id="view-ai-doctor" class="view-section hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <div class="w-12 h-12 rounded-2xl bg-purple-900 text-white flex items-center justify-center text-2xl mx-auto mb-3 shadow-lg">
+          ✨
+        </div>
+        <h1 class="text-3xl font-extrabold text-purple-950 font-serif mb-2">SheRise AI Pitch Doctor</h1>
+        <p class="text-sm text-slate-600">Simulate a Tier-1 Venture Capitalist diligence review powered by Google Gemini. Test any business concept and obtain instant readiness scores.</p>
+      </div>
+
+      <div class="glass-panel p-8 rounded-3xl border border-purple-100 shadow-xl mb-8">
+        <form id="form-standalone-doctor" onsubmit="window.app.runStandalonePitchDoctor(event)" class="space-y-4">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Venture Name</label>
+              <input type="text" name="doc_title" required placeholder="e.g. Lumina Health" 
+                     class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Category</label>
+              <select name="doc_category" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm">
+                <option value="HealthTech">HealthTech</option>
+                <option value="FinTech">FinTech</option>
+                <option value="AI & SaaS">AI & SaaS</option>
+                <option value="CleanTech & Climate">CleanTech & Climate</option>
+                <option value="EdTech">EdTech</option>
+                <option value="Consumer">Consumer</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Stage</label>
+              <select name="doc_stage" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm">
+                <option value="Idea">Idea</option>
+                <option value="Prototype / MVP">Prototype / MVP</option>
+                <option value="Early Traction">Early Traction</option>
+                <option value="Seed">Seed</option>
+                <option value="Series A">Series A</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Target Raise ($)</label>
+              <input type="number" name="doc_funding" value="500000" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">The Problem *</label>
+            <textarea name="doc_problem" required rows="2" placeholder="What severe customer pain or systemic market inefficiency are you solving?" 
+                      class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Your Solution & Moat *</label>
+            <textarea name="doc_solution" required rows="2" placeholder="How does your solution work? What makes it 10x better or defensible?" 
+                      class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Current Validation / Traction</label>
+            <input type="text" name="doc_traction" placeholder="e.g. 500 beta signups, $8,000 monthly pilot revenue" 
+                   class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+          </div>
+
+          <div class="text-right pt-2">
+            <button type="submit" id="btn-run-pitch-doc" 
+                    class="gradient-btn-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition">
+              <span>✨</span> Run AI Pitch Doctor Analysis
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Result Container -->
+      <div id="standalone-ai-result" class="hidden"></div>
+
+    </section>
+
+    <!-- 7. PROFILE VIEW -->
+    <section id="view-profile" class="view-section hidden max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <div class="mb-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-purple-700">Account Settings</span>
+        <h1 class="text-3xl font-extrabold text-purple-950 font-serif">Member Profile</h1>
+      </div>
+
+      <div class="glass-panel p-8 rounded-3xl border border-purple-100 shadow-lg">
+        <form onsubmit="window.app.handleProfileUpdate(event)" class="space-y-6">
+          
+          <div class="flex items-center gap-4 pb-6 border-b border-purple-100">
+            <img id="profile-avatar-preview" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" 
+                 class="w-16 h-16 rounded-full object-cover ring-2 ring-purple-300" />
+            <div>
+              <h3 class="font-bold text-purple-950 text-base">Profile Photo</h3>
+              <p class="text-xs text-slate-500">Avatar links are synced with your demo or verified account.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Full Name</label>
+              <input type="text" id="profile-name" required class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Email Address</label>
+              <input type="email" id="profile-email" disabled class="w-full px-4 py-2.5 rounded-xl border border-purple-100 bg-slate-50 text-slate-500 text-sm" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Professional Title</label>
+            <input type="text" id="profile-title" placeholder="e.g. Founder & CEO at BioNova" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Bio</label>
+            <textarea id="profile-bio" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Company / Organization</label>
+              <input type="text" id="profile-company" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Location</label>
+              <input type="text" id="profile-location" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">LinkedIn URL</label>
+              <input type="url" id="profile-linkedin" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Website URL</label>
+              <input type="url" id="profile-website" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm" />
+            </div>
+          </div>
+
+          <div class="text-right pt-4 border-t border-purple-100">
+            <button type="submit" class="gradient-btn-primary text-white text-xs font-bold px-6 py-2.5 rounded-xl shadow">
+              Save Profile Changes
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODALS                                                                    -->
+  <!-- ========================================================================= -->
+
+  <!-- 1. Venture Detail Modal -->
+  <div id="modal-venture-detail" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop overflow-y-auto">
+    <div class="glass-panel modal-enter w-full max-w-3xl rounded-3xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative border border-purple-200 shadow-2xl">
+      <button onclick="window.app.closeModal('modal-venture-detail')" 
+              class="absolute top-6 right-6 w-8 h-8 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center hover:bg-purple-200 transition text-sm font-bold">
+        ✕
+      </button>
+      <div id="venture-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- 2. Express Interest Modal -->
+  <div id="modal-interest" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="glass-panel modal-enter w-full max-w-md rounded-3xl p-6 relative border border-purple-200 shadow-2xl">
+      <button onclick="window.app.closeModal('modal-interest')" 
+              class="absolute top-5 right-5 w-7 h-7 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center hover:bg-purple-200 text-xs font-bold">
+        ✕
+      </button>
+
+      <h3 class="text-xl font-bold text-purple-950 mb-1 flex items-center gap-1.5">
+        <span>🤝</span> Express Investment Interest
+      </h3>
+      <p class="text-xs text-slate-500 mb-4">Send a direct message and contact note to the founder.</p>
+
+      <form onsubmit="window.app.submitInterestForm(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-purple-950 mb-1">Your Name / Firm</label>
+          <input type="text" id="interest-investor-name" required class="w-full px-3 py-2 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 mb-1">Email Address</label>
+          <input type="email" id="interest-investor-email" required class="w-full px-3 py-2 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 mb-1">Note to Founder</label>
+          <textarea id="interest-message" required rows="3" placeholder="We would love to review your data room or schedule a 15-min intro call..." 
+                    class="w-full px-3 py-2 rounded-xl border border-purple-200 text-sm bg-white"></textarea>
+        </div>
+
+        <button type="submit" class="w-full gradient-btn-primary text-white text-xs font-bold py-3 rounded-xl shadow">
+          Deliver Inquiry to Founder
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. AI Tailored Investor Outreach Modal -->
+  <div id="modal-investor-pitch" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="glass-panel modal-enter w-full max-w-2xl rounded-3xl p-6 sm:p-8 relative border border-purple-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <button onclick="window.app.closeModal('modal-investor-pitch')" 
+              class="absolute top-6 right-6 w-8 h-8 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center hover:bg-purple-200 text-sm font-bold">
+        ✕
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xl">✨</span>
+        <h3 class="text-xl font-bold text-purple-950">Gemini AI Personalized Pitch Generator</h3>
+      </div>
+      <p class="text-xs text-slate-600 mb-6">
+        Select one of your ventures. Gemini will synthesize your pitch with the investor’s specific thesis to generate a tailored, high-converting outreach email.
+      </p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Choose Venture to Pitch</label>
+          <select id="ai-pitch-venture-select" class="w-full px-4 py-2.5 rounded-xl border border-purple-200 bg-white text-sm font-medium">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <button id="btn-run-investor-pitch" onclick="window.app.generateInvestorPitchWithAi()"
+                class="gradient-btn-primary text-white text-xs font-bold px-6 py-2.5 rounded-xl shadow flex items-center gap-1.5">
+          <span>✨</span> Generate Tailored Outreach Pitch
+        </button>
+
+        <div id="ai-pitch-result-box" class="hidden pt-4 border-t border-purple-100 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-900 uppercase tracking-wider">Ready-to-Send Outreach</span>
+            <button onclick="window.app.copyPitchText()" class="text-xs text-purple-700 hover:text-purple-900 font-bold flex items-center gap-1">
+              <span>📋</span> Copy to Clipboard
+            </button>
+          </div>
+          <textarea id="ai-pitch-text" rows="10" readonly 
+                    class="w-full p-4 rounded-xl border border-purple-200 font-mono text-xs bg-purple-50/50 leading-relaxed text-slate-800 focus:outline-none"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Auth Modal (Sign Up & Login) -->
+  <div id="modal-auth" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="glass-panel modal-enter w-full max-w-md rounded-3xl p-6 sm:p-8 relative border border-purple-200 shadow-2xl">
+      <button onclick="window.app.closeModal('modal-auth')" 
+              class="absolute top-6 right-6 w-8 h-8 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center hover:bg-purple-200 text-xs font-bold">
+        ✕
+      </button>
+
+      <!-- Tabs -->
+      <div class="flex border-b border-purple-100 mb-6">
+        <button id="tab-login-btn" onclick="window.app.switchAuthTab('login')" class="flex-1 pb-3 text-sm font-bold text-purple-900 border-b-2 border-purple-800 transition">
+          Sign In
+        </button>
+        <button id="tab-register-btn" onclick="window.app.switchAuthTab('register')" class="flex-1 pb-3 text-sm font-semibold text-slate-400 transition">
+          Join SheRise
+        </button>
+      </div>
+
+      <!-- Quick 1-Click Demo Accounts -->
+      <div class="mb-5 p-3 rounded-2xl bg-purple-100/70 border border-purple-200 text-center">
+        <span class="text-[11px] font-bold text-purple-900 block mb-2">⚡ 1-Click Instant Demo Login:</span>
+        <div class="flex items-center justify-center gap-2">
+          <button onclick="window.app.handleDemoLogin('entrepreneur')" 
+                  class="px-3 py-1.5 rounded-xl text-[11px] font-bold bg-white text-purple-900 shadow-sm hover:bg-purple-50 transition border border-purple-200">
+            👩‍💼 As Maya (Founder)
+          </button>
+          <button onclick="window.app.handleDemoLogin('investor')" 
+                  class="px-3 py-1.5 rounded-xl text-[11px] font-bold bg-white text-purple-900 shadow-sm hover:bg-purple-50 transition border border-purple-200">
+            💼 As Elena (Investor)
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="window.app.handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Email</label>
+          <input type="email" id="login-email" required placeholder="maya@bionova.health" 
+                 class="w-full px-4 py-2.5 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Password</label>
+          <input type="password" id="login-password" required placeholder="••••••••" 
+                 class="w-full px-4 py-2.5 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <button type="submit" class="w-full gradient-btn-primary text-white text-xs font-bold py-3 rounded-xl shadow-md">
+          Sign In
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register" onsubmit="window.app.handleRegisterSubmit(event)" class="hidden space-y-4">
+        <!-- Role selector -->
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-2">I am joining as:</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-purple-200 bg-white cursor-pointer hover:bg-purple-50 text-xs font-bold">
+              <input type="radio" name="reg_role" value="entrepreneur" checked class="text-purple-600" />
+              <span>👩‍💼 Founder</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-purple-200 bg-white cursor-pointer hover:bg-purple-50 text-xs font-bold">
+              <input type="radio" name="reg_role" value="investor" class="text-purple-600" />
+              <span>💼 Investor</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Full Name</label>
+          <input type="text" id="reg-name" required placeholder="e.g. Sarah Connor" class="w-full px-4 py-2 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Email</label>
+          <input type="email" id="reg-email" required placeholder="name@domain.com" class="w-full px-4 py-2 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Password (min 6 chars)</label>
+          <input type="password" id="reg-password" minlength="6" required placeholder="••••••••" class="w-full px-4 py-2 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">Professional Title</label>
+          <input type="text" id="reg-title" placeholder="e.g. Founder & CEO" class="w-full px-4 py-2 rounded-xl border border-purple-200 text-sm bg-white" />
+        </div>
+
+        <button type="submit" class="w-full gradient-btn-primary text-white text-xs font-bold py-3 rounded-xl shadow-md">
+          Create Free Account
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 5. Gemini API Key Settings Modal -->
+  <div id="modal-gemini-key" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="glass-panel modal-enter w-full max-w-md rounded-3xl p-6 sm:p-8 relative border border-purple-200 shadow-2xl">
+      <button onclick="window.app.closeModal('modal-gemini-key')" 
+              class="absolute top-6 right-6 w-8 h-8 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center hover:bg-purple-200 text-xs font-bold">
+        ✕
+      </button>
+
+      <div class="w-10 h-10 rounded-xl bg-purple-900 text-white flex items-center justify-center text-xl mb-3 shadow">
+        ✨
+      </div>
+      <h3 class="text-xl font-bold text-purple-950 mb-1">Gemini API Settings</h3>
+      <p class="text-xs text-slate-500 mb-4">
+        Enter your Google Gemini API key to activate live generative evaluations with <strong>gemini-4-hydrogen</strong>. If left empty, SheRise uses its built-in intelligent heuristic engine.
+      </p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-purple-950 uppercase tracking-wider mb-1">API Key</label>
+          <input type="password" id="input-gemini-key" placeholder="AIzaSy..." 
+                 class="w-full px-4 py-2.5 rounded-xl border border-purple-200 text-sm font-mono bg-white" />
+          <span class="text-[10px] text-slate-400 block mt-1">Saved securely in your browser session and never shared.</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="window.app.saveGeminiKey()" class="flex-1 gradient-btn-primary text-white text-xs font-bold py-2.5 rounded-xl shadow">
+            Save Key
+          </button>
+          <button onclick="document.getElementById('input-gemini-key').value=''; window.app.saveGeminiKey()" class="px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Footer -->
+  <footer class="mt-auto bg-gradient-to-b from-[#FAF5FF] to-purple-100/60 border-t border-purple-200/60 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-800 to-indigo-600 flex items-center justify-center shadow">
+            <span class="text-xl text-white">🌸</span>
+          </div>
+          <div>
+            <span class="text-xl font-extrabold text-purple-950 font-serif">SheRise</span>
+            <p class="text-xs text-purple-700 font-medium">Catalytic Capital & AI for Women Entrepreneurs</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-slate-600">
+          <button onclick="window.app.navigate('explore')" class="hover:text-purple-900">Explore Ventures</button>
+          <button onclick="window.app.navigate('investors')" class="hover:text-purple-900">Investor Directory</button>
+          <button onclick="window.app.navigate('ai-doctor')" class="hover:text-purple-900">✨ AI Pitch Doctor</button>
+          <button onclick="window.app.openGeminiKeyModal()" class="hover:text-purple-900">Gemini Settings</button>
+        </div>
+
+        <p class="text-xs text-slate-400">&copy; 2026 SheRise Inc. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/state.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
